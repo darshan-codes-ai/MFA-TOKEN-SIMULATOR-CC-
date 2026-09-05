@@ -12,9 +12,9 @@
     [ "esp:RX0", "$serialMonitor:TX", "", [] ],
     [ "esp:3V3", "oled1:VCC", "red", [] ],
     [ "esp:GND.1", "oled1:GND", "black", [] ],
-    [ "esp:21", "oled1:SDA", "green", [] ],
-    [ "esp:22", "oled1:SCL", "blue", [] ],
-    [ "esp:4", "btn1:1.l", "yellow", [] ],
+    [ "esp:D21", "oled1:SDA", "green", [] ],
+    [ "esp:D22", "oled1:SCL", "blue", [] ],
+    [ "esp:D4", "btn1:1.l", "yellow", [] ],
     [ "esp:GND.2", "btn1:2.l", "black", [] ]
   ],
   "dependencies": {}
