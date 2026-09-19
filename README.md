@@ -4,6 +4,8 @@ A hardware-in-software demonstration of multi-factor authentication: a simulated
 
 Built entirely in simulation using [Wokwi](https://wokwi.com) — no physical hardware required, though the same firmware runs unmodified on a real ESP32.
 
+This repository also includes a **local web-based MFA Token Simulator** for classroom demonstration. The website is a visual simulation of the same workflow and does **not** claim to be a production authentication system.
+
 ## How it works
 
 ```mermaid
@@ -34,8 +36,60 @@ flowchart LR
 │   └── lambda_function.py  # Cloud-side OTP verifier (deployed via AWS Lambda console)
 ├── diagram.json          # Wokwi simulated circuit (ESP32 + OLED + button)
 ├── wokwi.toml            # Wokwi simulator config
-└── platformio.ini        # Build config and library dependencies
+├── platformio.ini        # Build config and library dependencies
+└── web/
+    ├── frontend/         # React + Vite MFA website
+    └── backend/          # Express API with in-memory OTP state
 ```
+
+## WEB-BASED MFA TOKEN SIMULATOR
+
+The web application provides a visual simulation of the MFA token workflow. It runs completely locally and does **not** require AWS credentials. In this version the website does not connect to the physical/Wokwi ESP32; it uses a virtual device named **ESP32-001** in Simulation mode over MQTT conceptually.
+
+Flow:
+
+```
+Login
+→ Virtual MFA Token
+→ Generate OTP
+→ 30-second countdown
+→ OTP Verification
+→ Success / Failure
+→ Security Dashboard
+```
+
+Technology:
+
+- Frontend: React + Vite + Tailwind CSS
+- Backend: Node.js + Express (in-memory state, no database)
+- Original simulation: ESP32 + Wokwi + MQTT + AWS IoT + AWS Lambda
+
+### Run the website
+
+Backend:
+
+```bash
+cd web/backend
+npm install
+npm start
+```
+
+Frontend (in a second terminal):
+
+```bash
+cd web/frontend
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173). The Vite dev server proxies `/api` to the Express backend on port 3001.
+
+Demo login:
+
+- Username: `demo`
+- Password: `mfa123`
+
+This web app is a **local classroom simulation**, not a production authenticator. OTPs are random 6-digit codes with a 30-second expiry, stored in backend memory only.
 
 ## Hardware / components simulated
 
