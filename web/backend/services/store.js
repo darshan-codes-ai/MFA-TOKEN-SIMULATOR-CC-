@@ -81,6 +81,11 @@ export function generateOtp() {
   };
 }
 
+export function getCurrentOtp() {
+  expireIfNeeded();
+  return state.currentOTP ? { ...state.currentOTP } : null;
+}
+
 export function verifyOtp(rawCode) {
   expireIfNeeded();
 
