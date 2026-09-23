@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import mfaRoutes from "./routes/mfa.js";
 import dashboardRoutes from "./routes/dashboard.js";
+import { connectAwsIot } from "./services/awsIot.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -26,6 +27,16 @@ app.use((err, _req, res, _next) => {
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`MFA Token Simulator API running on http://localhost:${PORT}`);
+
+  try {
+    await connectAwsIot();
+    console.log("AWS IoT Core connection ready.");
+  } catch (error) {
+    console.error("AWS IoT Core connection failed:", error.message);
+    console.error(
+      "The API is still running, but cloud MFA verification will not work until AWS credentials/IoT permissions are configured."
+    );
+  }
 });
