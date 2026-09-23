@@ -7,3 +7,6 @@ src/secrets.h
 node_modules
 web/frontend/dist
 web/frontend/.vite
+# Local environment files
+.env
+web/backend/.env
